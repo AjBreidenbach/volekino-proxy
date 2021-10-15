@@ -34,8 +34,8 @@ LogLevel DEBUG
 #LoginGraceTime 2m
 PermitRootLogin no
 #StrictModes yes
-#MaxAuthTries 6
-#MaxSessions 10
+MaxAuthTries 1
+MaxSessions 1
 
 #PubkeyAuthentication yes
 
@@ -93,6 +93,7 @@ X11Forwarding no
 PrintMotd no
 #PidFile /var/run/sshd.pid
 PermitTunnel yes
+IPQoS throughput
 #ChrootDirectory none
 
 

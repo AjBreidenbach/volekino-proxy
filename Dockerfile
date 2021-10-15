@@ -5,6 +5,7 @@ run apt install curl net-tools -y
 copy volekino.conf /etc/nginx/sites-enabled/default
 copy ./sshd_config /etc/ssh/sshd_config
 copy ./rsyslog.conf /etc/rsyslog.conf
+copy ./favicon.ico /var/www/html/favicon.ico
 run mkdir /var/run/sshd
 copy ./volekino_proxy /usr/local/bin/volekino_proxy
 cmd /usr/local/bin/volekino_proxy
