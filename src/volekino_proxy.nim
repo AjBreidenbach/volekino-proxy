@@ -128,6 +128,12 @@ when isMainModule:
   setPassword("andrew", "zhopa")
   echo "password set"
 
+  let nginxTest = startProcess(NGINX, args=["-t"], options={poParentStreams})
+  if nginxTest.waitForExit != 0:
+    echo "nginx test failed"
+    quit 0
+  
+
 
   if mkfifo(cstring"/var/log/auth.log", Mode O_RDWR) != 0:
     echo "couldn't create fifo"
