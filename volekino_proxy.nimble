@@ -5,7 +5,7 @@ author        = "Andrew"
 description   = "A new awesome nimble package"
 license       = "MIT"
 srcDir        = "src"
-bin           = @["volekino_proxy"]
+bin           = @["volekino_proxy", "rpc_controller"]
 
 
 # Dependencies

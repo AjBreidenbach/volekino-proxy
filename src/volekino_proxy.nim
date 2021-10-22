@@ -7,14 +7,16 @@ import os, osproc, strformat, streams, strutils, options, posix
 
 
 let
-  USERDEL = findExe("userdel")
-  USERADD = findExe("useradd")
-  PASSWD = findExe("passwd")
+#  USERDEL = findExe("userdel")
+#  USERADD = findExe("useradd")
+#  PASSWD = findExe("passwd")
   NGINX = findExe("nginx")
   SSHD = findExe("sshd")
   RSYSLOGD = findExe("rsyslogd")
+  RPC_CONTROLLER = findExe("rpc_controller")
 
 
+#[
 proc deleteUser*(username: string) =
   discard execCmd(&"{USERDEL} {username}") == 0
   
@@ -31,6 +33,7 @@ proc setPassword*(username, password: string) =
   f.write(&"{password}\n{password}")
   f.close()
 
+]#
   
 const 
   passwordLogin = re"Accepted password for (\S+) from (\S+)"
@@ -123,15 +126,19 @@ proc verifyUser(pid:int, forwarding:string): bool  =
     echo "NOT A MATCH!!!"
 
 when isMainModule:
-  createUser("andrew")
-  echo "andrew created"
-  setPassword("andrew", "zhopa")
-  echo "password set"
+  #createUser("andrew")
+  #echo "andrew created"
+  #setPassword("andrew", "zhopa")
+  #echo "password set"
 
+  #/usr/local/nginx/conf/nginx.conf.tempalte
+  discard startProcess("envsubst '$PROXY_CACHE_MAX_SIZE $SLICE_SIZE' < /usr/local/nginx/conf/nginx.conf.tempalte > /usr/local/nginx/conf/nginx.conf && echo 'envsubst successful'", options={poEvalCommand, poParentStreams}).waitForExit()
   let nginxTest = startProcess(NGINX, args=["-t"], options={poParentStreams})
   if nginxTest.waitForExit != 0:
     echo "nginx test failed"
     quit 0
+
+
   
 
 
@@ -139,9 +146,11 @@ when isMainModule:
     echo "couldn't create fifo"
     quit 1
   let
-    nginx = startProcess(NGINX)
-    sshd = startProcess(SSHD)
-    rsyslog = startProcess(RSYSLOGD)
+    o = {poStdErrToStdOut, poEchoCmd}
+    controller = startProcess(RPC_CONTROLLER, options=(o + {poParentStreams}))
+    nginx = startProcess(NGINX, options=o)
+    sshd = startProcess(SSHD, options=o)
+    rsyslog = startProcess(RSYSLOGD, options=o)
     log = newFileStream("/var/log/auth.log")
 
 
