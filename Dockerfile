@@ -23,4 +23,5 @@ copy ./volekino_proxy /usr/local/bin/volekino_proxy
 copy ./rpc_controller /usr/local/bin/rpc_controller
 env SLICE_SIZE=1m
 env PROXY_CACHE_MAX_SIZE=2G
+env VOLEKINO_RPC_PASS=zhopa
 cmd /usr/local/bin/volekino_proxy

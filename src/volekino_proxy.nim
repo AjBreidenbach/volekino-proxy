@@ -40,9 +40,9 @@ const
   localForwarding = re"Local forwarding listening on (path )?(\S+)"
   pidRe = re"User child is on pid (\d+)"
   pidRe2 = re"sshd\[(\d+)\]:"
-  childRe = re"sshd: ([a-zA-Z][a-zA-Z0-9]*)"
+  childRe = re"sshd: ([a-zA-Z][a-zA-Z0-9_]*)"
   addrInUseRe = re"unix_listener: cannot bind to path (\S+) Address already in use"
-  sessionClosedRe = re"session closed for user ([a-zA-Z][a-zA-Z0-9]*)"
+  sessionClosedRe = re"session closed for user ([a-zA-Z][a-zA-Z0-9_]*)"
 
 type LoginSource = tuple[user: string, ip: string]
 proc parseLogin(s: string): Option[LoginSource] =
