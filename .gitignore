@@ -1,1 +1,5 @@
-volekino_proxy
+**
+!Dockerfile
+!sshd_config
+!**.*
+!**/
